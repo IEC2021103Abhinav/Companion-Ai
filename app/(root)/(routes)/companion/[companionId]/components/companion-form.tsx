@@ -1,5 +1,6 @@
 "use client";
 import { Wand2 } from "lucide-react";
+import  axios  from "axios"; 
 
 import * as z from "zod";
 import { Category, Companion } from "@prisma/client";
@@ -21,6 +22,8 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 
 const PREAMBLE = `You are a fictional version of Elon Musk, a visionary entrepreneur known
@@ -68,6 +71,8 @@ export const CompanionForm = ({
     categories,
     initialData
 }: CompanionFormProps) => {
+    const router= useRouter();
+    const {toast}= useToast();
     // form controller
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -84,7 +89,37 @@ export const CompanionForm = ({
     const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+        try {
+            // we have to check whther it has initialData or not 
+            // we can update the previous by axios or create new one 
+            if(initialData)
+            {
+                // update functionality
+                await axios.patch(`/api/companion/${initialData.id}`,values);
+            }
+            else
+            {
+                // create 
+                await axios.post("/api/companion", values);
+            }
+            toast({
+                description: "Success"
+            });
+            router.refresh();
+            // by upper function , we can refresh all server components  and all server components 
+            // are going to refresh the data from database and ensuring the  new companion is loaded or not
+
+            router.push("/");
+            // to home page
+            
+        } catch (error) {
+            console.log(error,'SOMETHING WENT WRONG')
+            toast({
+                variant:"destructive",
+                description: "Something went Wrong",
+            });
+            
+        }
     }
     return (
         <div className="h-full p-4 space-y-2 max-w-3xl mx-auto">
