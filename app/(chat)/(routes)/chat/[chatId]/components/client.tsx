@@ -1,6 +1,5 @@
 "use client"
 
-
 import { Companion, Message } from "@prisma/client"
 import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
@@ -37,7 +36,7 @@ export const ChatClient = ({
         handleSubmit,
         setInput,
     } = useCompletion({
-        api: '/api/chat/${companion.id}',
+        api: `/api/chat/${companion.id}`,
         onFinish(prompt, completion) {
             const systemMessage: ChatMessageProps = {
                 role: "system",
