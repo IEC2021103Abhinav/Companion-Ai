@@ -17,10 +17,10 @@ export async function POST(req: Request) {
         }
         // for pro subscription
 
-        // const isPro= await checkSubscription();
-        // if(!isPro){
-        //     return new NextResponse("Pro subscription required",{status:403});
-        // }
+        const isPro= await checkSubscription();
+        if(!isPro){
+            return new NextResponse("Pro subscription required",{status:403});
+        }
 
         const companion = await prismadb.companion.create({
             data: {

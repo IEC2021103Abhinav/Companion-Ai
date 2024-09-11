@@ -15,7 +15,6 @@ const SettingsPage=async ()=>{
                 </div>
                 <SubscriptionButton isPro={isPro}/>
             </h3>
-            Hello Setting
         </div>
     );
 }
