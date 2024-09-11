@@ -11,6 +11,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toogle";
 import { MobileSidebar } from "./ui/mobile-sidebar";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 
 const font = Poppins({
@@ -18,12 +19,19 @@ const font = Poppins({
     subsets: ["latin"]
 });
 
-export const Navbar = () => {
+interface NavBarProps {
+    isPro: boolean,
+}
+
+export const Navbar = ({
+    isPro
+}: NavBarProps) => {
+    const proModal = useProModal();
     return (
         <div className="fixed w-full z-50 flex justify-between items-center py-2 px-4 border-primary/10 bg-secondary h-16">
             <div className="flex items-center">
                 {/* <Menu className="block md:hidden" /> */}
-                <MobileSidebar/>
+                <MobileSidebar />
                 <Link href="/">
                     <h1 className={cn("hidden md:block text-xl  md:text-3xl font-bold text-primary",
                         font.className    // dynamic classname
@@ -33,12 +41,14 @@ export const Navbar = () => {
                 </Link>
             </div>
             <div className=" flex items- center gap-x-3">
-                <Button variant="premiuim" size="sm">
-                    Upgrade
-                    <Sparkles className="h-4 w-4 fill-white text-white"/>
-                </Button>
-                <ModeToggle/>
-                <UserButton afterSignOutUrl="/"/>
+                {!isPro && (
+                    <Button variant="premiuim" size="sm" onClick={proModal.onOpen}>
+                        Upgrade
+                        <Sparkles className="h-4 w-4 fill-white text-white" />
+                    </Button>
+                )}
+                <ModeToggle />
+                <UserButton afterSignOutUrl="/" />
             </div>
         </div>
 

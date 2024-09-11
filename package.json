@@ -6,10 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
-    "@clerk/nextjs": "^5.3.3",
+    "@clerk/nextjs": "^4.31.4",
     "@hookform/resolvers": "^3.9.0",
     "@pinecone-database/pinecone": "^3.0.2",
     "@prisma/client": "^5.19.1",
@@ -44,9 +45,11 @@
     "react-hook-form": "^7.53.0",
     "react-spinners": "^0.14.1",
     "replicate": "^0.32.1",
+    "stripe": "^16.10.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "zustand": "^4.5.5"
   },
   "devDependencies": {
     "@types/node": "^20",
